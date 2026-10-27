@@ -42,7 +42,7 @@
     exciting movies and entertainment.
   </p>
 
-  <img src="C:\Users\ADMIN\Downloads\Vishwanathan_and_the_Sons.jpg"
+  <img src="REVA MOVIE HOUSE/image.png"
        alt="Vishwanathan and the Sons Movie Poster"
        width="400">
 
@@ -336,7 +336,7 @@ STATUS: CONFIRMED
    <h2>Vishwanath and Sons - Official Trailer</h2>
 
 <video width="700" height="400" controls>
-    <source src="Viswanathan_and_sons_Trailer.mp4.mp4" type="video/mp4">
+    <source src="REVA MOVIE HOUSE/Viswanathan_and_sons_Trailer.mp4.mp4" type="video/mp4">
     Your browser cannot play this video.
 </video>
 
@@ -364,6 +364,52 @@ STATUS: CONFIRMED
   <p>&copy; 2026 REVA MOVIE HOUSE</p>
 
 </center>
+
+</footer>
+<!-- Include Firebase App & Realtime Database SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+  // Your exact Firebase configuration keys
+  const firebaseConfig = {
+    apiKey: "AIzaSyCFr2kYowXU0ZlZ17VOFp0pnNIDFZnMRzc",
+    authDomain: "viswanathan-movie-booking.firebaseapp.com",
+    databaseURL: "https://viswanathan-movie-booking-default-rtdb.firebaseio.com",
+    projectId: "viswanathan-movie-booking",
+    storageBucket: "viswanathan-movie-booking.firebasestorage.app",
+    messagingSenderId: "425228394838",
+    appId: "1:425228394838:web:b39a24d8fca1247266b6f7",
+    measurementId: "G-J6W985QBV4"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  // 1. Function to book a seat (call this when a user clicks a seat/book button)
+  function bookSeat(seatId, customerName) {
+    database.ref('bookedSeats/' + seatId).set({
+      name: customerName,
+      status: 'booked'
+    });
+  }
+
+  // 2. Real-time Listener: Updates every visitor's screen instantly when any ticket is booked
+  database.ref('bookedSeats').on('value', (snapshot) => {
+    const seatsData = snapshot.val() || {};
+    
+    Object.keys(seatsData).forEach(seatId => {
+      const seatElement = document.getElementById(seatId);
+      if (seatElement) {
+        seatElement.classList.add('booked');
+        seatElement.disabled = true; // Prevent double booking
+      }
+    });
+  });
+</script>
+</body>
+</html>
 
 </footer>
 
